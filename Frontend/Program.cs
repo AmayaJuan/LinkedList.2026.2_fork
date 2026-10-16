@@ -1,6 +1,6 @@
 ﻿using Backend;
 
-var list = new SinglyLinkendList<string>();
+var list = new DoublyLinkedList<string>();//new SinglyLinkendList<string>();
 var option = string.Empty;
 
 do
@@ -10,27 +10,32 @@ do
     {
         case "1":
             Console.Write("Enter value: ");
-            var itemBeginnig = Console.ReadLine() ?? "";
-            Console.WriteLine(list.InsertAtBeginning(itemBeginnig) ? $"Item{itemBeginnig} inserted." : $"This item {itemBeginnig} already exists.");
+            list.InsertAtBeginning(Console.ReadLine()!);
             break;
         case "2":
             Console.Write("Enter value: ");
-            var itemEnd = Console.ReadLine() ?? "";
-            Console.WriteLine(list.InsertAtEnd(itemEnd) ? $"Item {itemEnd} inserted." : $"This item {itemEnd} already exists");
+            list.InsertAtEnd(Console.ReadLine()!);
             break;
-
         case "3":
-            Console.Write("Enter value to search: ");
-            var itemSearch = Console.ReadLine() ?? "";
-            Console.WriteLine(list.Contains(itemSearch) ? $"Item {itemSearch} found." : $"Item {itemSearch} not found.");
+            Console.Write("Enter value: ");
+            var itemToSearch = Console.ReadLine()!;
+            Console.WriteLine(list.Contains(itemToSearch) 
+                ? $"The item: '{itemToSearch}' exists!" 
+                : $"The item: '{itemToSearch}' doesn't exists!");
             break;
         case "4":
-            Console.Write("Enter value to remove: ");
-            var itemRemove = Console.ReadLine() ?? "";
-            Console.WriteLine(list.Remove(itemRemove) ? $"Item {itemRemove} removed." : $"Item {itemRemove} not found.");
+            Console.Write("Enter value: ");
+            var itemToRemove = Console.ReadLine()!;
+            if (!list.Contains(itemToRemove))
+            {
+                Console.WriteLine($"The item: '{itemToRemove}' not exists in the list.");
+                break;
+            }
+            list.Remove(itemToRemove);
+            Console.WriteLine($"The item: '{itemToRemove}' removed.");
             break;
         case "5":
-            list.Reverse();
+            //list.Reverse();
             Console.WriteLine("List reversed.");
             break;
         case "6":
@@ -40,19 +45,20 @@ do
             Console.Write("Enter the new value: ");
             var value = Console.ReadLine() ?? "";
 
-            Console.WriteLine(list.InsertAfter(previous, value)
+            /*Console.WriteLine(list.InsertAfter(previous, value)
                 ? "Element inserted."
-                : "Prevous element not found or item already exists.");
+                : "Prevous element not found or item already exists.");*/
             break;
-
         case "7":
-            list.Order();
+            //list.Order();
             Console.WriteLine("List ordered alphabetically.");
             break;
         case "8":
             Console.WriteLine(list);
             break;
-
+        case "9":
+            Console.WriteLine(list.ToStringReverse());
+            break;
         case "0":
             Console.WriteLine("Goobye!");
             break;
@@ -72,6 +78,7 @@ string Menu()
     Console.WriteLine("6. Insert.");
     Console.WriteLine("7. Order.");
     Console.WriteLine("8. Show list.");
+    Console.WriteLine("9. Show reverse list.");
     Console.WriteLine("0. Exit.");
     Console.Write("Emter your option? ");
     return Console.ReadLine()!;
